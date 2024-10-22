@@ -1,55 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-const WIDTH = 10;
-const HEIGHT = 10;
-
-type Cell = 0 | 1;
+import { Grid } from './grid';
+import { WIDTH, HEIGHT, Cell } from './constants';
 
 export class GameOfLife {
-    grid: Cell[][];
-    intervalId: ReturnType<typeof setInterval> | null; // Изменено здесь
+    grid: Grid;
+    intervalId: ReturnType<typeof setInterval> | null;
 
     constructor() {
-        this.grid = this.createEmptyGrid();
+        this.grid = new Grid();
         this.intervalId = null;
     }
 
-    createEmptyGrid(): Cell[][] {
-        return Array.from({ length: HEIGHT }, () => Array(WIDTH).fill(0));
-    }
-
-    toggleCell(x: number, y: number) {
-        this.grid[y][x] = this.grid[y][x] === 1 ? 0 : 1;
-        this.display();
-    }
-
-    getAliveNeighbors(x: number, y: number): number {
-        const directions = [
-            [-1, -1], [-1, 0], [-1, 1],
-            [0, -1],           [0, 1],
-            [1, -1], [1, 0], [1, 1]
-        ];
-
-        let aliveCount = 0;
-
-        for (const [dx, dy] of directions) {
-            const newX = x + dx;
-            const newY = y + dy;
-            if (newX >= 0 && newX < WIDTH && newY >= 0 && newY < HEIGHT) {
-                aliveCount += this.grid[newY][newX];
-            }
-        }
-
-        return aliveCount;
-    }
-
     update() {
-        const newGrid: Cell[][] = this.grid.map(row => [...row]);
+        const newGrid: Cell[][] = this.grid.cells.map(row => [...row]);
 
         for (let y = 0; y < HEIGHT; y++) {
             for (let x = 0; x < WIDTH; x++) {
-                const aliveNeighbors = this.getAliveNeighbors(x, y);
+                const aliveNeighbors = this.grid.getAliveNeighbors(x, y);
 
-                if (this.grid[y][x] === 1) {
+                if (this.grid.cells[y][x] === 1) {
                     if (aliveNeighbors < 2 || aliveNeighbors > 3) {
                         newGrid[y][x] = 0;
                     }
@@ -61,40 +29,50 @@ export class GameOfLife {
             }
         }
 
-        this.grid = newGrid;
+        this.grid.cells = newGrid;
         this.display();
     }
 
     display() {
         const gridElement = document.getElementById('grid');
         if (!gridElement) return;
-
+    
         gridElement.innerHTML = '';
-
-        this.grid.forEach(row => {
+    
+        const table = document.createElement('table');
+        this.grid.cells.forEach(row => {
+            const tableRow = document.createElement('tr');
             row.forEach(cell => {
-                const cellElement = document.createElement('div');
-                cellElement.className = 'cell ' + (cell === 1 ? 'alive' : 'dead');
-                cellElement.textContent = cell === 1 ? '■' : '□';
-                gridElement.appendChild(cellElement);
+                const cellElement = document.createElement('td');
+                cellElement.style.backgroundColor = cell === 1 ? 'black' : 'white';
+                cellElement.style.width = '20px';
+                cellElement.style.height = '20px';
+                cellElement.style.border = '1px solid black';
+                tableRow.appendChild(cellElement);
             });
+            table.appendChild(tableRow);
         });
+    
+        gridElement.appendChild(table);
     }
+    
 
     addClickEvent() {
         const gridElement = document.getElementById('grid');
         if (!gridElement) return;
-
+    
         gridElement.addEventListener('click', (event) => {
-            const target = event.target as HTMLElement;
-            if (target.classList.contains('cell')) {
-                const cellIndex = Array.from(gridElement.children).indexOf(target);
+            const target = event.target as HTMLTableCellElement;
+            if (target.tagName === 'TD') {
+                const cellIndex = Array.from(gridElement.getElementsByTagName('td')).indexOf(target);
                 const x = cellIndex % WIDTH;
                 const y = Math.floor(cellIndex / WIDTH);
-                this.toggleCell(x, y);
+                this.grid.toggleCell(x, y);
+                this.display();
             }
         });
     }
+    
 
     addStartButtonEvent() {
         const startButton = document.getElementById('start');
@@ -112,18 +90,21 @@ export class GameOfLife {
     addResetButtonEvent() {
         const resetButton = document.getElementById('reset');
         if (!resetButton) return;
-    
+
         resetButton.addEventListener('click', () => {
-            this.grid = this.createEmptyGrid(); // Сбрасываем сетку
-            this.intervalId && clearInterval(this.intervalId); // Останавливаем игру, если она запущена
-            this.intervalId = null; // Сбрасываем идентификатор интервала this.display(); // Обновляем отображение
+            this.grid.reset();
+            if (this.intervalId) {
+                clearInterval(this.intervalId);
+                this.intervalId = null;
+            }
+            this.display();
         });
     }
-    
+
     initialize() {
         this.addClickEvent();
         this.addStartButtonEvent();
-        this.addResetButtonEvent(); // Добавляем обработчик для кнопки "Заново"
+        this.addResetButtonEvent();
         this.display();
     }
 }

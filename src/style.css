@@ -1,30 +1,29 @@
-#grid {
-    display: grid;
-    grid-template-columns: repeat(10, 20px);
-    margin-bottom: 20px; /* Отступ снизу для сетки */
+/* Стили для таблицы */
+table {
+    border-collapse: collapse; /* Убирает двойные границы между ячейками */
+    width: auto; /* Автоматическая ширина таблицы */
 }
 
+/* Стили для ячеек таблицы */
+td {
+    border: 1px solid black; /* Черная обводка вокруг ячейки */
+    padding: 0; /* Убирает отступы внутри ячейки */
+    margin: 0; /* Убирает внешние отступы */
+    width: 30px; /* Ширина ячейки */
+    height: 30px; /* Высота ячейки */
+}
+
+/* Дополнительные стили (по желанию) */
 .cell {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
+    display: flex; /* Позволяет использовать flexbox для центрирования контента */
+    justify-content: center; /* Центрирует содержимое по горизонтали */
+    align-items: center; /* Центрирует содержимое по вертикали */
 }
 
 .alive {
-    background-color: green;
+    background-color: black; /* Цвет фона для "живых" клеток */
 }
 
 .dead {
-    background-color: white;
-}
-
-button {
-    margin-top: 10px; /* Отступ между кнопками */
-    padding: 10px 15px; /* Паддинг для кнопок */
-    font-size: 16px; /* Размер шрифта для кнопок */
-    cursor: pointer; /* Указатель курсора при наведении */
+    background-color: white; /* Цвет фона для "мертвых" клеток */
 }
