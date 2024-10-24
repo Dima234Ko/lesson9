@@ -1,5 +1,5 @@
 import { GameOfLife } from './gameOfLife';
-import { WIDTH } from './constants';
+import { updateDimensions, WIDTH, HEIGHT } from './constants';
 
 export class GameEvents {
     private game: GameOfLife;
@@ -9,6 +9,7 @@ export class GameEvents {
         this.addClickEvent();
         this.addStartButtonEvent();
         this.addResetButtonEvent();
+        this.addApplyButtonEvent();
     }
 
     addClickEvent() {
@@ -21,8 +22,8 @@ export class GameEvents {
                 const cellIndex = Array.from(gridElement.children).indexOf(target);
                 const x = cellIndex % WIDTH;
                 const y = Math.floor(cellIndex / WIDTH);
-                this.game.grid.toggleCell(x, y); 
-                this.game.display(); 
+                this.game.grid.toggleCell(x, y);
+                this.game.display();
             }
         });
     }
@@ -52,5 +53,17 @@ export class GameEvents {
             }
             this.game.display();
         });
+    }
+
+    addApplyButtonEvent() {
+        const applyButton = document.querySelector('#apply');
+        if (applyButton) {
+            applyButton.addEventListener('click', () => {
+                updateDimensions();
+                this.game.updateGrid();
+            });
+        } else {
+            console.error("Не удалось найти кнопку 'Применить'.");
+        }
     }
 }

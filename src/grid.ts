@@ -4,12 +4,12 @@ import { WIDTH, HEIGHT, Cell } from './constants';
 export class Grid {
     cells: Cell[][];
 
-    constructor() {
-        this.cells = this.createEmptyGrid();
+    constructor(width: number, height: number) {
+        this.cells = this.createEmptyGrid(width, height);
     }
 
-    createEmptyGrid(): Cell[][] {
-        return Array.from({ length: HEIGHT }, () => Array(WIDTH).fill(0));
+    createEmptyGrid(width: number, height: number): Cell[][] {
+        return Array.from({ length: height }, () => Array(width).fill(0));
     }
 
     toggleCell(x: number, y: number) {
@@ -26,7 +26,7 @@ export class Grid {
         for (const [dx, dy] of directions) {
             const newX = x + dx;
             const newY = y + dy;
-            if (newX >= 0 && newX < WIDTH && newY >= 0 && newY < HEIGHT) {
+            if (newX >= 0 && newX < this.cells[0].length && newY >= 0 && newY < this.cells.length) {
                 aliveCount += this.cells[newY][newX];
             }
         }
@@ -35,6 +35,6 @@ export class Grid {
     }
 
     reset() {
-        this.cells = this.createEmptyGrid();
+        this.cells = this.createEmptyGrid(this.cells[0].length, this.cells.length);
     }
 }

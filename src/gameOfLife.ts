@@ -7,7 +7,7 @@ export class GameOfLife {
     speed: number;
 
     constructor() {
-        this.grid = new Grid();
+        this.grid = new Grid(WIDTH, HEIGHT);
         this.intervalId = null;
         this.speed = 1000; // начальная скорость
     }
@@ -35,11 +35,13 @@ export class GameOfLife {
         this.display();
     }
 
+
+
     display() {
         const gridElement = document.getElementById('grid');
         if (!gridElement) return;
     
-        gridElement.innerHTML = '';
+        gridElement.innerHTML = ''; // Очищаем текущее содержимое
     
         const table = document.createElement('table');
         this.grid.cells.forEach(row => {
@@ -52,7 +54,14 @@ export class GameOfLife {
             table.appendChild(tableRow);
         });
     
-        gridElement.appendChild(table);
+        gridElement.appendChild(table); // Добавляем новую таблицу в DOM
+    }
+
+
+    updateGrid() {
+        // Обновляем сетку на основе новых значений WIDTH и HEIGHT
+        this.grid = new Grid(WIDTH, HEIGHT); // Создаем новую сетку с новыми размерами
+        this.display(); // Отображаем обновленную сетку
     }
 
     addClickEvent() {
@@ -96,6 +105,7 @@ export class GameOfLife {
             }
             this.display();
         });
+  
     }
 
     addSpeedControlEvent() {
