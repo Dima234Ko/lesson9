@@ -4,10 +4,12 @@ import { WIDTH, HEIGHT, Cell } from './constants';
 export class GameOfLife {
     grid: Grid;
     intervalId: ReturnType<typeof setInterval> | null;
+    speed: number;
 
     constructor() {
         this.grid = new Grid();
         this.intervalId = null;
+        this.speed = 1000; // начальная скорость
     }
 
     update() {
@@ -52,7 +54,6 @@ export class GameOfLife {
     
         gridElement.appendChild(table);
     }
-    
 
     addClickEvent() {
         const gridElement = document.getElementById('grid');
@@ -69,7 +70,6 @@ export class GameOfLife {
             }
         });
     }
-    
 
     addStartButtonEvent() {
         const startButton = document.getElementById('start');
@@ -80,7 +80,7 @@ export class GameOfLife {
 
             this.intervalId = setInterval(() => {
                 this.update();
-            }, 1000);
+            }, this.speed);
         });
     }
 
@@ -98,10 +98,26 @@ export class GameOfLife {
         });
     }
 
+    addSpeedControlEvent() {
+        const speedInput = document.getElementById('speed') as HTMLInputElement;
+        if (!speedInput) return;
+
+        speedInput.addEventListener('input', () => {
+            this.speed = 2000 - Number(speedInput.value);
+            if (this.intervalId) {
+                clearInterval(this.intervalId);
+                this.intervalId = setInterval(() => {
+                    this.update();
+                }, this.speed);
+            }
+        });
+    }
+
     initialize() {
         this.addClickEvent();
         this.addStartButtonEvent();
         this.addResetButtonEvent();
+        this.addSpeedControlEvent(); // добавляем обработчик для изменения скорости
         this.display();
     }
 }

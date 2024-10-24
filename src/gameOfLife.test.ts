@@ -1,9 +1,8 @@
 import { GameOfLife } from './gameOfLife';
-import { Grid } from './grid';
 import { WIDTH, HEIGHT } from './constants';
 
 describe('GameOfLife', () => {
-    let game: GameOfLife; // Указываем тип переменной
+    let game: GameOfLife; 
 
     beforeEach(() => {
         document.body.innerHTML = `
@@ -15,7 +14,7 @@ describe('GameOfLife', () => {
         game.initialize();
     });
 
-    test('Тест на соответсвие поля стартовым параметрам', () => {
+    it('Тест на соответсвие поля стартовым параметрам', () => {
         const cells = game.grid.cells;
         expect(cells).toHaveLength(HEIGHT);
         cells.forEach(row => {
@@ -24,7 +23,7 @@ describe('GameOfLife', () => {
         });
     });
 
-    test('Тест функциональности переключения состояния ячейки', () => {
+    it('Тест функциональности переключения состояния ячейки', () => {
         const gridElement = document.getElementById('grid');
         const cell = gridElement?.getElementsByTagName('td')[0];
         if (!cell) {
@@ -34,7 +33,7 @@ describe('GameOfLife', () => {
         expect(game.grid.cells[0][0]).toBe(1);
     });
 
-    test('Тест на правильность обновления сетки в игре', () => {
+    it('Тест на правильность обновления сетки в игре', () => {
         game.grid.toggleCell(1, 0); 
         game.grid.toggleCell(1, 1); 
         game.grid.toggleCell(1, 2); 
@@ -44,7 +43,7 @@ describe('GameOfLife', () => {
         expect(game.grid.cells[2][1]).toBe(0);
     });
 
-    test('Тест сброса игрового поля', () => {
+    it('Тест сброса игрового поля', () => {
         game.grid.toggleCell(0, 0);
         game.grid.toggleCell(1, 1);
 
