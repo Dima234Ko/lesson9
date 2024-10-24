@@ -1,0 +1,11 @@
+button{
+    width: 160px;
+    height: 40px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid #000000;
+    outline: none;
+    transition: 1s ease-in-out;
+    margin-bottom: 10px;
+}
+ 

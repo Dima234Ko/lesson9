@@ -18,9 +18,7 @@ export class Grid {
 
     getAliveNeighbors(x: number, y: number): number {
         const directions = [
-            [-1, -1], [-1, 0], [-1, 1],
-            [0, -1],           [0, 1],
-            [1, -1], [1, 0], [1, 1]
+            [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]
         ];
 
         let aliveCount = 0;

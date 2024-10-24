@@ -45,9 +45,6 @@ export class GameOfLife {
             row.forEach(cell => {
                 const cellElement = document.createElement('td');
                 cellElement.style.backgroundColor = cell === 1 ? 'black' : 'white';
-                cellElement.style.width = '20px';
-                cellElement.style.height = '20px';
-                cellElement.style.border = '1px solid black';
                 tableRow.appendChild(cellElement);
             });
             table.appendChild(tableRow);

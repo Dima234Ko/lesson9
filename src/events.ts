@@ -21,8 +21,8 @@ export class GameEvents {
                 const cellIndex = Array.from(gridElement.children).indexOf(target);
                 const x = cellIndex % WIDTH;
                 const y = Math.floor(cellIndex / WIDTH);
-                this.game.grid.toggleCell(x, y); // Изменено на this.game.grid.toggleCell
-                this.game.display(); // Обновляем отображение после переключения
+                this.game.grid.toggleCell(x, y); 
+                this.game.display(); 
             }
         });
     }
