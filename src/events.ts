@@ -1,5 +1,5 @@
 import { GameOfLife } from './gameOfLife';
-import { updateDimensions, WIDTH, HEIGHT } from './constants';
+import { updateDimensions, width } from './size';
 
 export class GameEvents {
     private game: GameOfLife;
@@ -20,8 +20,8 @@ export class GameEvents {
             const target = event.target as HTMLElement;
             if (target.classList.contains('cell')) {
                 const cellIndex = Array.from(gridElement.children).indexOf(target);
-                const x = cellIndex % WIDTH;
-                const y = Math.floor(cellIndex / WIDTH);
+                const x = cellIndex % width;
+                const y = Math.floor(cellIndex / width);
                 this.game.grid.toggleCell(x, y);
                 this.game.display();
             }

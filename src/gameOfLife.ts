@@ -1,5 +1,5 @@
 import { Grid } from './grid';
-import { WIDTH, HEIGHT, Cell } from './constants';
+import { width, height, Cell } from './size';
 
 export class GameOfLife {
     grid: Grid;
@@ -7,7 +7,7 @@ export class GameOfLife {
     speed: number;
 
     constructor() {
-        this.grid = new Grid(WIDTH, HEIGHT);
+        this.grid = new Grid(width, height);
         this.intervalId = null;
         this.speed = 1000; // начальная скорость
     }
@@ -15,8 +15,8 @@ export class GameOfLife {
     update() {
         const newGrid: Cell[][] = this.grid.cells.map(row => [...row]);
 
-        for (let y = 0; y < HEIGHT; y++) {
-            for (let x = 0; x < WIDTH; x++) {
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
                 const aliveNeighbors = this.grid.getAliveNeighbors(x, y);
 
                 if (this.grid.cells[y][x] === 1) {
@@ -60,7 +60,7 @@ export class GameOfLife {
 
     updateGrid() {
         // Обновляем сетку на основе новых значений WIDTH и HEIGHT
-        this.grid = new Grid(WIDTH, HEIGHT); // Создаем новую сетку с новыми размерами
+        this.grid = new Grid(width, height); // Создаем новую сетку с новыми размерами
         this.display(); // Отображаем обновленную сетку
     }
 
@@ -72,8 +72,8 @@ export class GameOfLife {
             const target = event.target as HTMLTableCellElement;
             if (target.tagName === 'TD') {
                 const cellIndex = Array.from(gridElement.getElementsByTagName('td')).indexOf(target);
-                const x = cellIndex % WIDTH;
-                const y = Math.floor(cellIndex / WIDTH);
+                const x = cellIndex % width;
+                const y = Math.floor(cellIndex / width);
                 this.grid.toggleCell(x, y);
                 this.display();
             }

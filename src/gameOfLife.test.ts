@@ -1,5 +1,5 @@
 import { GameOfLife } from './gameOfLife';
-import { WIDTH, HEIGHT } from './constants';
+import { width, height } from './size';
 
 describe('GameOfLife', () => {
     let game: GameOfLife; 
@@ -16,9 +16,9 @@ describe('GameOfLife', () => {
 
     it('Тест на соответсвие поля стартовым параметрам', () => {
         const cells = game.grid.cells;
-        expect(cells).toHaveLength(HEIGHT);
+        expect(cells).toHaveLength(height);
         cells.forEach(row => {
-            expect(row).toHaveLength(WIDTH);
+            expect(row).toHaveLength(width);
             row.forEach(cell => expect(cell).toBe(0));
         });
     });

@@ -1,5 +1,5 @@
-// grid.ts
-import { WIDTH, HEIGHT, Cell } from './constants';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { width, height, Cell } from './size';
 
 export class Grid {
     cells: Cell[][];
