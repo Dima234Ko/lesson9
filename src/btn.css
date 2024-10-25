@@ -1,36 +1,35 @@
-button{
-    width: 150px;
-    height: 40px;
-    cursor: pointer;
-    background: transparent;
-    border: 1px solid #000000;
-    outline: none;
-    transition: 1s ease-in-out;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    margin-right: 10px;
-    margin-left: 10px;
+button {
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid #000000;
+  outline: none;
+  transition: 1s ease-in-out;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
-#apply{
-    margin-left: 15px; 
+#apply {
+  margin-left: 15px;
 }
 
 button:hover {
-    background-color:#1068db;
-    transition: 0.7s;
+  background-color: #1068db;
+  transition: 0.7s;
 }
 
-input{
-    width: 60px;
-    height: 35px;
-    margin-bottom: 10px; 
-    border: 1px solid #000000;
-    margin-right: 5px;
-    margin-left: 10px;
+input {
+  width: 60px;
+  height: 35px;
+  margin-bottom: 10px;
+  border: 1px solid #000000;
+  margin-right: 5px;
+  margin-left: 10px;
 }
 
- #speed{
-    width: 320px;
- }
-
+#speed {
+  width: 320px;
+}
