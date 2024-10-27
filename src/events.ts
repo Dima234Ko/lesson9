@@ -1,5 +1,5 @@
 import { GameOfLife } from "./gameOfLife";
-import { updateDimensions, width } from "./size";
+import { width } from "./size";
 
 export class GameEvents {
   private game: GameOfLife;
@@ -59,8 +59,13 @@ export class GameEvents {
     const applyButton = document.querySelector("#apply");
     if (applyButton) {
       applyButton.addEventListener("click", () => {
-        updateDimensions();
-        this.game.updateGrid();
+        const newWidth = parseInt(
+          (document.getElementById("width") as HTMLInputElement).value,
+        );
+        const newHeight = parseInt(
+          (document.getElementById("height") as HTMLInputElement).value,
+        );
+        this.game.updateGrid(newWidth, newHeight);
       });
     } else {
       console.error("Не удалось найти кнопку 'Применить'.");

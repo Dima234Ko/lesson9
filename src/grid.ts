@@ -3,22 +3,26 @@ import { width, height, Cell } from "./size";
 
 export class Grid {
   cells: Cell[][];
-  height: number | undefined;
-  width: number | undefined;
+  height: number;
+  width: number;
 
   constructor(width: number, height: number) {
+    this.width = width;
+    this.height = height;
     this.cells = this.createEmptyGrid(width, height);
   }
 
-  createEmptyGrid(width: number, height: number): Cell[][] {
+  private createEmptyGrid(width: number, height: number): Cell[][] {
     return Array.from({ length: height }, () => Array(width).fill(0));
   }
 
-  toggleCell(x: number, y: number) {
-    this.cells[y][x] = this.cells[y][x] === 1 ? 0 : 1;
+  public toggleCell(x: number, y: number): void {
+    if (this.isInBounds(x, y)) {
+      this.cells[y][x] = this.cells[y][x] === 1 ? 0 : 1;
+    }
   }
 
-  getAliveNeighbors(x: number, y: number): number {
+  public getAliveNeighbors(x: number, y: number): number {
     const directions = [
       [-1, -1],
       [-1, 0],
@@ -35,12 +39,7 @@ export class Grid {
     for (const [dx, dy] of directions) {
       const newX = x + dx;
       const newY = y + dy;
-      if (
-        newX >= 0 &&
-        newX < this.cells[0].length &&
-        newY >= 0 &&
-        newY < this.cells.length
-      ) {
+      if (this.isInBounds(newX, newY)) {
         aliveCount += this.cells[newY][newX];
       }
     }
@@ -48,7 +47,25 @@ export class Grid {
     return aliveCount;
   }
 
-  reset() {
-    this.cells = this.createEmptyGrid(this.cells[0].length, this.cells.length);
+  public reset(): void {
+    this.cells = this.createEmptyGrid(this.width, this.height);
+  }
+
+  public resize(newWidth: number, newHeight: number): void {
+    const newCells = this.createEmptyGrid(newWidth, newHeight);
+
+    for (let y = 0; y < Math.min(this.height, newHeight); y++) {
+      for (let x = 0; x < Math.min(this.width, newWidth); x++) {
+        newCells[y][x] = this.cells[y][x]; // Копируем старые значения
+      }
+    }
+
+    this.width = newWidth;
+    this.height = newHeight;
+    this.cells = newCells;
+  }
+
+  private isInBounds(x: number, y: number): boolean {
+    return x >= 0 && x < this.width && y >= 0 && y < this.height;
   }
 }
