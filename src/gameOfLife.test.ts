@@ -58,9 +58,9 @@ describe("GameOfLife", () => {
 
   it("Тест нажатия на кнопку 'Start', когда игра уже запущена", () => {
     const startButton = document.getElementById("start") as HTMLButtonElement;
-    startButton.click(); 
-    const initialIntervalId = game.intervalId; 
-    startButton.click(); 
+    startButton.click();
+    const initialIntervalId = game.intervalId;
+    startButton.click();
     expect(game.intervalId).toBe(initialIntervalId);
   });
 
@@ -96,8 +96,8 @@ describe("GameOfLife", () => {
 
     game.update();
 
-    expect(game.grid.cells[0][1]).toBe(1); 
-    expect(game.grid.cells[1][0]).toBe(1); 
+    expect(game.grid.cells[0][1]).toBe(1);
+    expect(game.grid.cells[1][0]).toBe(1);
     expect(game.grid.cells[1][1]).toBe(1);
     expect(game.grid.cells[1][2]).toBe(0);
     expect(game.grid.cells[2][1]).toBe(0);

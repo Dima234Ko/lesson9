@@ -8,7 +8,7 @@ module.exports = {
   entry: "./src/index.ts",
   output: {
     filename: "[name].js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "docs"),
   },
   resolve: {
     extensions: [".ts", ".js"], // Поддержка расширений .ts и .js

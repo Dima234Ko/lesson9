@@ -1,4 +1,3 @@
- 
 import { GameOfLife } from "./gameOfLife";
 import { GameEvents } from "./events";
 import { updateDimensions } from "./size";
