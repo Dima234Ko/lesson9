@@ -3,6 +3,8 @@ import { width, height, Cell } from "./size";
 
 export class Grid {
   cells: Cell[][];
+  height: number | undefined;
+  width: number | undefined;
 
   constructor(width: number, height: number) {
     this.cells = this.createEmptyGrid(width, height);

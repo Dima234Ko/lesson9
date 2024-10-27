@@ -5,69 +5,76 @@ export class GameOfLife {
   grid: Grid;
   intervalId: ReturnType<typeof setInterval> | null;
   speed: number;
+  doomedCells: boolean[][];
+
   constructor() {
     this.grid = new Grid(width, height);
     this.intervalId = null;
     this.speed = 1000; // начальная скорость
+    this.doomedCells = Array.from({ length: height }, () => Array(width).fill(false));
   }
 
   update() {
     const newGrid: Cell[][] = this.grid.cells.map((row) => [...row]);
+    this.doomedCells = Array.from({ length: height }, () => Array(width).fill(false)); // Сброс состояния обреченных клеток
 
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         const aliveNeighbors = this.grid.getAliveNeighbors(x, y);
 
-        if (this.grid.cells[y] && this.grid.cells[y][x] === 1) {
-          // Проверка границ
+        if (this.grid.cells[y][x] === 1) { // Живая клетка
           if (aliveNeighbors < 2 || aliveNeighbors > 3) {
-            newGrid[y][x] = 0;
+            newGrid[y][x] = 0; // Клетка умирает
+            this.doomedCells[y][x] = true; // Помечаем как обреченную
           }
-        } else if (
-          this.grid.cells[y] &&
-          this.grid.cells[y][x] === 0 &&
-          aliveNeighbors === 3
-        ) {
-          // Проверка границ
-          newGrid[y][x] = 1;
+        } else if (this.grid.cells[y][x] === 0 && aliveNeighbors === 3) { // Мертвая клетка
+          newGrid[y][x] = 1; // Клетка рождается
         }
       }
     }
 
     this.grid.cells = newGrid;
     this.display();
+
+    // Проверка на наличие живых клеток
+    if (this.checkAllCellsDead()) {
+      this.stopGame(); // Остановка игры, если все клетки мертвы
+    }
   }
 
-  //   update() {
-  //     const newGrid = this.grid.cells.map((row) => row.slice());
+  checkAllCellsDead(): boolean {
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        if (this.grid.cells[y][x] === 1) {
+          return false; // Если найдена живая клетка, возвращаем false
+        }
+      }
+    }
+    return true; // Все клетки мертвы
+  }
 
-  //     for (let y = 0; y < this.grid.cells.length; y++) {
-  //         for (let x = 0; x < this.grid.cells[y].length; x++) {
-  //             const aliveNeighbors = this.grid.getAliveNeighbors(x, y);
-
-  //             if (this.grid.cells[y] && this.grid.cells[y][x] === 1) { // Проверка границ
-  //                 if (aliveNeighbors < 2 || aliveNeighbors > 3) {
-  //                     newGrid[y][x] = 0;
-  //                 }
-  //             } else if (this.grid.cells[y] && this.grid.cells[y][x] === 0 && aliveNeighbors === 3) { // Проверка границ
-  //                 newGrid[y][x] = 1;
-  //             }
-  //         }
-  //     }
-
-  //     this.grid.cells = newGrid;
-  // }
+  stopGame() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null; // Остановка интервала
+      alert("Все клетки мертвы."); // Уведомление игрока
+    }
+  }
 
   display() {
     const gridElement = document.getElementById("grid");
     if (!gridElement) return;
     gridElement.innerHTML = "";
     const table = document.createElement("table");
-    this.grid.cells.forEach((row) => {
+    this.grid.cells.forEach((row, y) => {
       const tableRow = document.createElement("tr");
-      row.forEach((cell) => {
+      row.forEach((cell, x) => {
         const cellElement = document.createElement("td");
-        cellElement.style.backgroundColor = cell === 1 ? "black" : "white";
+        if (this.doomedCells[y][x]) {
+          cellElement.style.backgroundColor = "blue"; // Обреченная клетка
+        } else {
+          cellElement.style.backgroundColor = cell === 1 ? "black" : "white"; // Живая и мертвая клетка
+        }
         tableRow.appendChild(cellElement);
       });
       table.appendChild(tableRow);
@@ -77,6 +84,7 @@ export class GameOfLife {
 
   updateGrid() {
     this.grid = new Grid(width, height);
+    this.doomedCells = Array.from({ length: height }, () => Array(width).fill(false));
     this.display();
   }
 
@@ -117,6 +125,7 @@ export class GameOfLife {
 
     resetButton.addEventListener("click", () => {
       this.grid.reset();
+      this.doomedCells = Array.from({ length: height }, () => Array(width).fill(false)); // Сброс состояния обреченных клеток
       if (this.intervalId) {
         clearInterval(this.intervalId);
         this.intervalId = null;
