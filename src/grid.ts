@@ -18,28 +18,32 @@ export class Grid {
 
   public toggleCell(x: number, y: number) {
     if (this.cells[y] && this.cells[y][x] !== undefined) {
-        this.cells[y][x] = this.cells[y][x] === 1 ? 0 : 1; // Переключаем состояние клетки
+      this.cells[y][x] = this.cells[y][x] === 1 ? 0 : 1; // Переключаем состояние клетки
     }
-}
+  }
 
   public getAliveNeighbors(x: number, y: number): number {
     let count = 0;
     const directions = [
-        [-1, -1], [-1, 0], [-1, 1],
-        [0, -1],           [0, 1],
-        [1, -1], [1, 0], [1, 1],
+      [-1, -1],
+      [-1, 0],
+      [-1, 1],
+      [0, -1],
+      [0, 1],
+      [1, -1],
+      [1, 0],
+      [1, 1],
     ];
 
     for (const [dx, dy] of directions) {
-        const newX = x + dx;
-        const newY = y + dy;
-        if (newX >= 0 && newX < this.width && newY >= 0 && newY < this.height) {
-            count += this.cells[newY][newX]; // Увеличиваем счетчик, если сосед живая клетка
-        }
+      const newX = x + dx;
+      const newY = y + dy;
+      if (newX >= 0 && newX < this.width && newY >= 0 && newY < this.height) {
+        count += this.cells[newY][newX]; // Увеличиваем счетчик, если сосед живая клетка
+      }
     }
     return count;
-}
-
+  }
 
   public reset(): void {
     this.cells = this.createEmptyGrid(this.width, this.height);

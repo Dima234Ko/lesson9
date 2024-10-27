@@ -21,31 +21,30 @@ export class GameOfLife {
   update() {
     const newGrid: Cell[][] = this.grid.cells.map((row) => [...row]); // Копируем текущее состояние клеток
     this.doomedCells = Array.from({ length: this.grid.height }, () =>
-        Array(this.grid.width).fill(false),
+      Array(this.grid.width).fill(false),
     ); // Сброс состояния обреченных клеток
 
     // Проходим по всем клеткам
     for (let y = 0; y < this.grid.height; y++) {
-        for (let x = 0; x < this.grid.width; x++) {
-            const aliveNeighbors = this.grid.getAliveNeighbors(x, y); // Получаем количество живых соседей
+      for (let x = 0; x < this.grid.width; x++) {
+        const aliveNeighbors = this.grid.getAliveNeighbors(x, y); // Получаем количество живых соседей
 
-            if (this.grid.cells[y][x] === 1) {
-                // Живая клетка
-                if (aliveNeighbors < 2 || aliveNeighbors > 3) {
-                    newGrid[y][x] = 0; // Клетка умирает
-                    this.doomedCells[y][x] = true; // Обреченная клетка
-                }
-            } else if (this.grid.cells[y][x] === 0 && aliveNeighbors === 3) {
-                // Мертвая клетка
-                newGrid[y][x] = 1; // Клетка рождается
-            }
+        if (this.grid.cells[y][x] === 1) {
+          // Живая клетка
+          if (aliveNeighbors < 2 || aliveNeighbors > 3) {
+            newGrid[y][x] = 0; // Клетка умирает
+            this.doomedCells[y][x] = true; // Обреченная клетка
+          }
+        } else if (this.grid.cells[y][x] === 0 && aliveNeighbors === 3) {
+          // Мертвая клетка
+          newGrid[y][x] = 1; // Клетка рождается
         }
+      }
     }
 
     this.grid.cells = newGrid; // Обновляем состояние клеток
     this.display(); // Обновляем отображение
-}
-
+  }
 
   // Метод для проверки, все ли клетки мертвы
   checkAllCellsDead(): boolean {
@@ -94,15 +93,16 @@ export class GameOfLife {
     this.grid.resize(newWidth, newHeight);
 
     // Создаем новую сетку с мертвыми клетками
-    const newCells = Array.from({ length: newHeight }, () =>
-        Array(newWidth).fill(0) // Все клетки инициализируем как мертвые
+    const newCells = Array.from(
+      { length: newHeight },
+      () => Array(newWidth).fill(0), // Все клетки инициализируем как мертвые
     );
 
     // Переносим старые клетки в новую сетку
     for (let y = 0; y < Math.min(oldHeight, newHeight); y++) {
-        for (let x = 0; x < Math.min(oldWidth, newWidth); x++) {
-            newCells[y][x] = this.grid.cells[y][x]; // Копируем состояние старых клеток
-        }
+      for (let x = 0; x < Math.min(oldWidth, newWidth); x++) {
+        newCells[y][x] = this.grid.cells[y][x]; // Копируем состояние старых клеток
+      }
     }
 
     // Обновляем состояние клеток
@@ -110,13 +110,12 @@ export class GameOfLife {
 
     // Обновляем состояние doomedCells
     this.doomedCells = Array.from({ length: newHeight }, () =>
-        Array(newWidth).fill(false)
+      Array(newWidth).fill(false),
     );
 
     this.display(); // Обновляем отображение
     this.addClickEvent(); // Привязываем события к новым клеткам
-}
-
+  }
 
   // Метод для привязки событий кликов к клеткам
   addClickEvent() {
@@ -131,8 +130,12 @@ export class GameOfLife {
       const target = event.target as HTMLTableCellElement; // Получаем элемент, по которому кликнули
       if (target.tagName === "TD") {
         // Проверяем, что это клетка
-        const rowIndex = Array.from(target.parentElement!.parentElement!.children).indexOf(target.parentElement!); // Индекс строки
-        const cellIndex = Array.from(target.parentElement!.children).indexOf(target); // Индекс клетки в строке
+        const rowIndex = Array.from(
+          target.parentElement!.parentElement!.children,
+        ).indexOf(target.parentElement!); // Индекс строки
+        const cellIndex = Array.from(target.parentElement!.children).indexOf(
+          target,
+        ); // Индекс клетки в строке
 
         const x = cellIndex; // Индекс по горизонтали
         const y = rowIndex; // Индекс по вертикали
