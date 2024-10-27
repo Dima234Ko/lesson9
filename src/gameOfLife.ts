@@ -25,7 +25,7 @@ export class GameOfLife {
         if (this.grid.cells[y][x] === 1) { // Живая клетка
           if (aliveNeighbors < 2 || aliveNeighbors > 3) {
             newGrid[y][x] = 0; // Клетка умирает
-            this.doomedCells[y][x] = true; // Помечаем как обреченную
+            this.doomedCells[y][x] = true; // Обреченная клетка
           }
         } else if (this.grid.cells[y][x] === 0 && aliveNeighbors === 3) { // Мертвая клетка
           newGrid[y][x] = 1; // Клетка рождается
@@ -46,7 +46,7 @@ export class GameOfLife {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         if (this.grid.cells[y][x] === 1) {
-          return false; // Если найдена живая клетка, возвращаем false
+          return false; 
         }
       }
     }
@@ -56,8 +56,8 @@ export class GameOfLife {
   stopGame() {
     if (this.intervalId) {
       clearInterval(this.intervalId);
-      this.intervalId = null; // Остановка интервала
-      alert("Все клетки мертвы."); // Уведомление игрока
+      this.intervalId = null; 
+      alert("Все клетки мертвы."); 
     }
   }
 

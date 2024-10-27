@@ -1,4 +1,3 @@
-// constants.ts
 export type Cell = 0 | 1;
 
 // Начальные значения
@@ -21,5 +20,4 @@ export function updateDimensions() {
   }
 }
 
-// Экспортируем переменные
 export { width, height };
