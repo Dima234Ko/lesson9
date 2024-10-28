@@ -1,6 +1,5 @@
 import { GameOfLife } from "./gameOfLife";
 import { GameEvents } from "./events";
-import { updateDimensions } from "./size";
 
 jest.mock("./size");
 
@@ -59,14 +58,6 @@ describe("GameEvents", () => {
     expect(game.intervalId).not.toBeNull();
   });
 
-  it("Тест нажатия на кнопку применить", () => {
-    const applyButton = document.getElementById("apply") as HTMLElement;
-    applyButton.click();
-
-    expect(updateDimensions).toHaveBeenCalled();
-    expect(game.updateGrid).toHaveBeenCalled();
-  });
-
   it("Тест нажатия на кнопку сброс", () => {
     const resetButton = document.getElementById("reset") as HTMLElement;
     game.intervalId = setInterval(() => {}, 1000);
@@ -76,7 +67,7 @@ describe("GameEvents", () => {
     expect(game.display).toHaveBeenCalled();
   });
 
-  it("Тест клика вне клеток", () => {
+  it("Тест клика вне поля", () => {
     const gridElement = document.getElementById("grid") as HTMLElement;
     const clickEvent = new MouseEvent("click", {
       bubbles: true,

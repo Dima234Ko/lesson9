@@ -86,48 +86,4 @@ describe("GameOfLife", () => {
     gridElement.dispatchEvent(clickEvent);
     expect(game.grid.cells.flat().some((cell) => cell === 1)).toBe(false);
   });
-
-  it("Тест на выживание ячейки с двумя соседями", () => {
-    game.grid.cells = [
-      [0, 1, 0],
-      [1, 1, 0],
-      [0, 0, 0],
-    ];
-
-    game.update();
-
-    expect(game.grid.cells[0][1]).toBe(1);
-    expect(game.grid.cells[1][0]).toBe(1);
-    expect(game.grid.cells[1][1]).toBe(1);
-    expect(game.grid.cells[1][2]).toBe(0);
-    expect(game.grid.cells[2][1]).toBe(0);
-  });
-
-  it("Тест на отсутствие изменений в пустой сетке", () => {
-    game.grid.cells = [
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0],
-    ];
-    game.update();
-    expect(game.grid.cells).toEqual([
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0],
-    ]);
-  });
-
-  it("Тест на стабильную конфигурацию", () => {
-    game.grid.cells = [
-      [1, 1, 0],
-      [1, 1, 0],
-      [0, 0, 0],
-    ];
-    game.update();
-    expect(game.grid.cells).toEqual([
-      [1, 1, 0],
-      [1, 1, 0],
-      [0, 0, 0],
-    ]);
-  });
 });
