@@ -9,13 +9,6 @@ describe("Grid", () => {
     grid = new Grid(width, height);
   });
 
-  // it("Тест на создание пустой решетки", () => {
-  //   const emptyGrid = grid.createEmptyGrid(width, height);
-  //   expect(emptyGrid).toHaveLength(height);
-  //   expect(emptyGrid.every((row) => row.length === width)).toBe(true);
-  //   expect(emptyGrid.flat()).toEqual(Array(height * width).fill(0));
-  // });
-
   it("Тест на переключение состояния клетки", () => {
     grid.toggleCell(0, 0);
     expect(grid.cells[0][0]).toBe(1);
